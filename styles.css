@@ -1,0 +1,136 @@
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #0077B5, #00A1D6);
+    color: white;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+h1 {
+    font-size: 36px;
+    margin-top: 20px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+}
+
+.button-container button {
+    font-size: 18px;
+    margin: 0 10px;
+    padding: 10px 20px;
+    background-color: #00A1D6;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.button-container button.active {
+    background-color: #00A1D6;
+    color: white;
+}
+
+.button-container button.inactive {
+    background-color: #c0c0c0;
+    color: white;
+    cursor: pointer;
+    /* Allow interaction */
+    border: 2px solid transparent;
+    /* Add a transparent border */
+}
+
+.button-container button.inactive:hover {
+    background-color: #b0b0b0;
+    /* Slightly darker gray on hover */
+    border: 2px solid #888;
+    /* Highlighted border on hover */
+}
+
+select {
+    font-size: 16px;
+    padding: 5px;
+    border-radius: 5px;
+    margin: 20px 10px;
+}
+
+table {
+    width: 80%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    color: white;
+}
+
+th {
+    background-color: #0077B5;
+}
+
+td {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* Airline logo styling */
+.airline-logo {
+    width: 200px;
+    height: 50px;
+    object-fit: contain;
+    /* Ensures the image fits within the specified dimensions without distortion */
+    display: block;
+    margin: 0;
+    /* Removes centering and ensures left alignment */
+}
+
+/* Adjust vertical alignment of the table cells */
+td,
+th {
+    vertical-align: middle;
+    /* Ensure text and images are aligned in the middle of the row */
+}
+
+/* Adjust the table column for the airline logo */
+table td.logo-column {
+    width: 220px;
+    /* Space for the logo */
+    text-align: left;
+    /* Left-align the logo */
+    vertical-align: middle;
+    /* Ensure the logos are aligned vertically */
+    padding-left: 10px;
+    /* Optional: Add padding to create space between the logo and the cell's edge */
+}
+
+.pagination-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.pagination-container button {
+    padding: 8px 15px;
+    background-color: #00A1D6;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.pagination-container button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
