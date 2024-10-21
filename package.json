@@ -1,26 +1,39 @@
 {
-  "name": "pills-flight-aware",
-  "version": "0.1.0",
-  "private": true,
   "scripts": {
+    "edgio:dev": "edgio dev",
+    "edgio:build": "edgio build",
+    "edgio:deploy": "edgio deploy --environment nextjs",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "types:generate": "npx openapi-typescript https://static.flightaware.com/rsrc/aeroapi/aeroapi-openapi.yml -o ./lib/api/aeroapi-openapi.4.22.0.d.ts",
+    "test:ts": "tsc --noEmit"
   },
+  "name": "pills-flight-aware",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
+    "next": "14.2.15",
+    "openapi-fetch": "^0.12.2",
     "react": "^18",
-    "react-dom": "^18",
-    "next": "14.2.15"
+    "react-dom": "^18"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@edgio/cli": "^7.13.8",
+    "@edgio/core": "^7.13.8",
+    "@edgio/devtools": "^7.13.8",
+    "@edgio/next": "^7.13.8",
+    "@edgio/prefetch": "^7.13.8",
+    "@edgio/react": "^7.13.8",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.15",
+    "openapi-typescript": "^7.4.1",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.15"
+    "typescript": "^5"
   }
 }
