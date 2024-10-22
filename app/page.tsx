@@ -1,4 +1,4 @@
-import Airports from "./airports";
+import Airports from "./components/airports";
 
 export default function Home() {
   return (
