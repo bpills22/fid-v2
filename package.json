@@ -1,0 +1,25 @@
+{
+  "name": "fid-v2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bpills22/fid-v2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bpills22/fid-v2/issues"
+  },
+  "homepage": "https://github.com/bpills22/fid-v2#readme",
+  "devDependencies": {
+    "@edgio/cli": "^7.13.8",
+    "@edgio/core": "^7.13.8",
+    "@edgio/prefetch": "^7.13.8"
+  }
+}
