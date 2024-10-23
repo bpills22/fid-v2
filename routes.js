@@ -51,13 +51,15 @@ export default new Router()
     },
   })
 
-  // Here is an example of how to specify an edge function to run for a particular path
-  // .get('/', {
-  //   edge_function: './edge-functions/main.js',
-  //   caching: {
-  //     max_age: '1d', // optionally cache the output of the edge function for 1 day
-  //   }
-  // })
+  // Route to handle the API calls using your Edge Function
+  .get('/api/flights/:airportCode/:flightType', {
+    edge_function: './edge-functions/fetchAPI.js',
+    comment: 'Proxy FlightAware API calls through Edgio',
+    caching: {
+      max_age: '0s', // Ensure we don't cache the API responses at the edge
+      bypass_client_cache: true, // No browser caching for the API response
+    },
+  })
 
   // plugin enabling basic Edgio functionality
   .use(edgioRoutes);
