@@ -10,9 +10,6 @@ export async function handleHttpRequest(request, context) {
     const baseUrl = 'https://aeroapi.flightaware.com/aeroapi/airports';
     const apiUrl = `${baseUrl}/${airportCode}/flights/${flightType}`;
 
-    // Log the constructed API URL for debugging
-    console.log('Constructed API URL:', apiUrl);
-
     // Fetch the data from FlightAware API
     const apiResponse = await fetch(apiUrl, {
       headers: {
@@ -20,13 +17,19 @@ export async function handleHttpRequest(request, context) {
       },
     });
 
+    // Get the response as text to include in the logs
+    const apiResponseText = await apiResponse.text();
+
+    // Log both the constructed API URL and the response status + text
+    console.log(`Constructed API URL: ${apiUrl} | FlightAware API Response: ${apiResponse.status} ${apiResponseText}`);
+
+    // If the response from FlightAware is not OK, return the error status
     if (!apiResponse.ok) {
-      // If the response from FlightAware is not OK, return the error status
-      return context.response.status(apiResponse.status).send(`Error: ${apiResponse.statusText}`);
+      return context.response.status(apiResponse.status).send(`Error: ${apiResponse.status} - ${apiResponseText}`);
     }
 
-    // Parse the response data
-    const data = await apiResponse.json();
+    // Parse the response data (you can reparse the text, or modify the flow slightly to handle the JSON directly)
+    const data = JSON.parse(apiResponseText);
 
     // Return the response to the client
     return context.response.json(data);
@@ -36,9 +39,5 @@ export async function handleHttpRequest(request, context) {
     return context.response.status(500).send(`Internal Server Error: ${error.message}`);
   }
 }
-
-
-
-
 
 
