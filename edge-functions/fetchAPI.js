@@ -6,17 +6,19 @@ export async function handleHttpRequest(request, context) {
     const flightType = pathSegments[4];   // 'arrivals' or 'departures'
 
     // Construct the API URL for the FlightAware API
-    const apiKey = "GMfzktw52I3XIoWlmyNaeiHtUze2DJTp";
     const baseUrl = 'https://aeroapi.flightaware.com/aeroapi/airports';
     const apiUrl = `${baseUrl}/${airportCode}/flights/${flightType}`;
 
     // Log the constructed API URL for debugging
     console.log('Constructed API URL:', apiUrl);
 
-    // Fetch the data from FlightAware API
+    // Fetch the data from FlightAware API using the 'flightaware' origin
     const apiResponse = await fetch(apiUrl, {
+      edgio: {
+        origin: 'flightaware',
+      },
       headers: {
-        "x-apikey": apiKey,
+        "x-apikey": "GMfzktw52I3XIoWlmyNaeiHtUze2DJTp",
       },
     });
 
@@ -45,6 +47,7 @@ export async function handleHttpRequest(request, context) {
     return context.response.status(500).send(`Internal Server Error: ${error.message}`);
   }
 }
+
 
 
 
