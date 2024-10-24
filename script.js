@@ -124,7 +124,7 @@ document.getElementById('submit-btn').addEventListener('click', () => {
     // Default to 'arrivals' unless departures is active
     const flightType = document.getElementById('departures-btn').classList.contains('active') ? 'departures' : 'arrivals';
     updateTableHeaders(flightType); // Update the table headers dynamically
-    fetchFlights(airportCode, null, flightType); // Fetch either arrivals or departures based on active button
+    fetchFlights(airportCode, flightType); // Fetch either arrivals or departures based on active button
 });
 
 // Clickable buttons for Arrivals and Departures
@@ -158,7 +158,7 @@ document.getElementById('next-btn').addEventListener('click', () => {
         previousPages.push(currentPageUrl); // Store the current page
         currentPageUrl = nextPageUrl;
         const flightType = document.getElementById('departures-btn').classList.contains('active') ? 'departures' : 'arrivals';
-        fetchFlights(null, nextPageUrl, flightType); // Fetch the next page
+        fetchFlights(null, flightType); // Fetch the next page (remove null argument)
     }
 });
 
@@ -166,7 +166,7 @@ document.getElementById('prev-btn').addEventListener('click', () => {
     if (previousPages.length > 0) {
         currentPageUrl = previousPages.pop(); // Get the last page from history
         const flightType = document.getElementById('departures-btn').classList.contains('active') ? 'departures' : 'arrivals';
-        fetchFlights(null, currentPageUrl, flightType); // Fetch the previous page
+        fetchFlights(null, flightType); // Fetch the previous page (remove null argument)
     }
 });
 
