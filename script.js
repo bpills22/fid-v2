@@ -7,6 +7,9 @@ async function fetchFlights(airportCode, flightType = 'arrivals') {
     // Build the API URL for the Edge Function instead of directly to FlightAware API
     const url = `/api/flights/${airportCode}/${flightType}`;
 
+    // Display the constructed API URL in the debug-info div for debugging purposes
+    document.getElementById('debug-info').textContent = `Constructed API URL: ${url}`;
+
     try {
         const response = await fetch(url, {
             method: "GET",
@@ -40,6 +43,7 @@ async function fetchFlights(airportCode, flightType = 'arrivals') {
         }
     } catch (error) {
         console.error("Error fetching flight data:", error);
+        document.getElementById('debug-info').textContent += `\nError: ${error.message}`;
     }
 }
 
