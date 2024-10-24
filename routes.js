@@ -3,16 +3,7 @@
 import { Router, edgioRoutes } from '@edgio/core'
 
 export default new Router()
-  // Here is an example where we cache api/* at the edge but prevent caching in the browser
-  // .match('/api/:path*', {
-  //   caching: {
-  //     max_age: '1d',
-  //     stale_while_revalidate: '1h',
-  //     bypass_client_cache: true,
-  //     service_worker_max_age: '1d',
-  //   },
-  // })
-
+  // Example of compressing static assets
   .always({
     comment: "Compress static assets",
     response: {
@@ -35,6 +26,7 @@ export default new Router()
     },
   })
 
+  // Add cache debug headers and setting True-Client-IP header
   .always({
     headers: {
       debug_header: true,
@@ -42,6 +34,8 @@ export default new Router()
     },
     comment: "Enable Cache Debug Headers and True-Client-IP",
   })
+
+  // Set CORS headers
   .always({
     headers: {
       set_response_headers: {
@@ -51,15 +45,19 @@ export default new Router()
     },
   })
 
-  // Route to handle the API calls using your Edge Function
+  // Route to handle the API calls using the Edge Function and FlightAware origin
   .get('/api/flights/:airportCode/:flightType', {
-    edge_function: './edge-functions/fetchAPI.js',
+    edge_function: './edge-functions/fetchAPI.js', // Use the Edge Function for processing
     comment: 'Proxy FlightAware API calls through Edgio',
     caching: {
       max_age: '0s', // Ensure we don't cache the API responses at the edge
       bypass_client_cache: true, // No browser caching for the API response
     },
+    origin: {
+      set_origin: 'flightaware', // Ensure requests are sent to the FlightAware origin
+    },
   })
 
-  // plugin enabling basic Edgio functionality
+  // Default Edgio plugin routes
   .use(edgioRoutes);
+

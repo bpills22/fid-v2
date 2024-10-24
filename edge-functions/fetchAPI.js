@@ -2,34 +2,32 @@ export async function handleHttpRequest(request, context) {
   try {
     // Extract airportCode and flightType from the request path
     const pathSegments = request.path.split('/');
-    const airportCode = pathSegments[3];  // 'kphl'
-    const flightType = pathSegments[4];   // 'arrivals' or 'departures'
+    const airportCode = pathSegments[3];  // Example: 'kphl'
+    const flightType = pathSegments[4];   // Example: 'arrivals' or 'departures'
 
     // Construct the API URL for the FlightAware API
-    const apiKey = "GMfzktw52I3XIoWlmyNaeiHtUze2DJTp";
-    const baseUrl = 'https://aeroapi.flightaware.com/aeroapi/airports';
-    const apiUrl = `${baseUrl}/${airportCode}/flights/${flightType}`;
+    const apiUrl = `/aeroapi/airports/${airportCode}/flights/${flightType}`;
 
-    // Fetch the data from FlightAware API
+    // Log the constructed API URL for debugging
+    console.log('Constructed API URL:', apiUrl);
+
+    // Fetch the data from FlightAware API using the 'flightaware' origin
     const apiResponse = await fetch(apiUrl, {
+      edgio: {
+        origin: "flightaware",  // Make sure the request goes to the correct origin
+      },
       headers: {
-        "x-apikey": apiKey,
+        "x-apikey": "GMfzktw52I3XIoWlmyNaeiHtUze2DJTp",  // API key for FlightAware
       },
     });
 
-    // Get the response as text to include in the logs
-    const apiResponseText = await apiResponse.text();
-
-    // Log both the constructed API URL and the response status + text
-    console.log(`Constructed API URL: ${apiUrl} | FlightAware API Response: ${apiResponse.status} ${apiResponseText}`);
-
-    // If the response from FlightAware is not OK, return the error status
     if (!apiResponse.ok) {
-      return context.response.status(apiResponse.status).send(`Error: ${apiResponse.status} - ${apiResponseText}`);
+      // If the response from FlightAware is not OK, return the error status
+      return context.response.status(apiResponse.status).send(`Error: ${apiResponse.statusText}`);
     }
 
-    // Parse the response data (you can reparse the text, or modify the flow slightly to handle the JSON directly)
-    const data = JSON.parse(apiResponseText);
+    // Parse the response data
+    const data = await apiResponse.json();
 
     // Return the response to the client
     return context.response.json(data);
@@ -39,5 +37,6 @@ export async function handleHttpRequest(request, context) {
     return context.response.status(500).send(`Internal Server Error: ${error.message}`);
   }
 }
+
 
 
