@@ -3,12 +3,16 @@ let previousPages = []; // Store previous pages to allow going back
 let nextPageUrl = null; // Store next page URL from the API
 
 // Function to fetch and populate flights for arrivals or departures
+// Function to fetch and populate flights for arrivals or departures
 async function fetchFlights(airportCode, flightType = 'arrivals') {
     // Build the API URL for the Edge Function instead of directly to FlightAware API
     const url = `/api/flights/${airportCode}/${flightType}`;
 
-    // Display the constructed API URL in the debug-info div for debugging purposes
-    document.getElementById('debug-info').textContent = `Constructed API URL: ${url}`;
+    // Ensure the debug-info div exists before writing to it
+    const debugInfo = document.getElementById("debug-info");
+    if (debugInfo) {
+        debugInfo.innerHTML = `URL passed to Edge Function: ${url}`;
+    }
 
     try {
         const response = await fetch(url, {
@@ -43,9 +47,10 @@ async function fetchFlights(airportCode, flightType = 'arrivals') {
         }
     } catch (error) {
         console.error("Error fetching flight data:", error);
-        document.getElementById('debug-info').textContent += `\nError: ${error.message}`;
     }
 }
+
+
 
 
 // Function to populate flights into the table (updated for both arrivals and departures)
