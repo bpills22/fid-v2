@@ -13,7 +13,7 @@ module.exports = {
       ],
       tls_verify: {
         use_sni: true,
-        sni_hint_and_strict_san_check: "flights.bpillsbury.com",
+        sni_hint_and_strict_san_check: "flightaware.bpillsbury.com",
       },
     },
     {
