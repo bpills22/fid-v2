@@ -10,8 +10,8 @@ export async function handleHttpRequest(request, context) {
     const baseUrl = 'https://aeroapi.flightaware.com/aeroapi/airports';
     const apiUrl = `${baseUrl}/${airportCode}/flights/${flightType}`;
 
-    // Commenting out the console.log of the API URL since it's confirmed to be correct
-    // console.log('Constructed API URL:', apiUrl);
+    // Restore logging the constructed API URL
+    console.log('Constructed API URL:', apiUrl);
 
     // Fetch the data from FlightAware API
     const apiResponse = await fetch(apiUrl, {
@@ -23,8 +23,8 @@ export async function handleHttpRequest(request, context) {
       },
     });
 
-    // Log the raw apiResponse to troubleshoot
-    console.log('apiResponse:', apiResponse);
+    // Remove logging the raw apiResponse since it's not helpful
+    // console.log('apiResponse:', apiResponse);
 
     if (!apiResponse.ok) {
       // Log the response status and text if it's not OK
@@ -34,7 +34,6 @@ export async function handleHttpRequest(request, context) {
         'statusText:',
         apiResponse.statusText
       );
-      // return context.response.status(apiResponse.status).send(`Error: ${apiResponse.statusText}`);
       return new Response(`Error: ${apiResponse.statusText}`, {
         status: apiResponse.status,
       });
@@ -44,7 +43,6 @@ export async function handleHttpRequest(request, context) {
     const data = await apiResponse.json();
 
     // Return the response to the client
-    // return context.response.json(data);
     return new Response(JSON.stringify(data), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
@@ -52,17 +50,8 @@ export async function handleHttpRequest(request, context) {
   } catch (error) {
     // Log the error in case of a failure
     console.error('Error in Edge Function:', error);
-    // return context.response.status(500).send(`Internal Server Error: ${error.message}`);
     return new Response(`Internal Server Error: ${error.message}`, {
       status: 500,
     });
   }
 }
-
-
-
-
-
-
-
-
