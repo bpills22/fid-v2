@@ -8,7 +8,7 @@ export async function handleHttpRequest(request, context) {
     // Construct the API URL for the FlightAware API
     const apiKey = 'GMfzktw52I3XIoWlmyNaeiHtUze2DJTp';
     const baseUrl = 'https://aeroapi.flightaware.com/aeroapi/airports';
-    const apiUrl = '${baseUrl}/${airportCode}/flights/${flightType}?max_pages=2';
+    const apiUrl = `${baseUrl}/${airportCode}/flights/${flightType}?max_pages=2`;
 
     // Restore logging the constructed API URL
     console.log('Constructed API URL:', apiUrl);
