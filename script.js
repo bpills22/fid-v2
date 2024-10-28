@@ -60,10 +60,10 @@ function populateFlights(data, flightType) {
     }
 
     flights.forEach(flight => {
-        const city = flightType === 'departures' ? flight.destination.city : flight.origin.city;
-        const airportCode = flightType === 'departures' ? flight.destination.code_iata : flight.origin.code_iata;
+        const city = flightType === 'departures' ? (flight.destination?.city || 'Unknown') : (flight.origin?.city || 'Unknown');
+        const airportCode = flightType === 'departures' ? (flight.destination?.code_iata || 'N/A') : (flight.origin?.code_iata || 'N/A');
         const flightCode = flight.ident_iata || "General Aviation";
-        const status = flight.status;
+        const status = flight.status || 'Unknown';
 
         const isGeneralAviation = flight.type === "General_Aviation";
         const airlineCode = isGeneralAviation ? 'GA' : (flight.operator_iata || 'GA');
@@ -77,17 +77,17 @@ function populateFlights(data, flightType) {
 
         const displayFlightCode = isGeneralAviation ? "General Aviation" : flightCode;
         const timeField = flightType === 'departures' ? flight.estimated_out : flight.actual_on;
-        const timezone = flightType === 'departures' ? flight.destination.timezone : flight.origin.timezone;
-        const flightTime = new Date(timeField).toLocaleString("en-US", { timeZone: timezone });
+        const timezone = flightType === 'departures' ? flight.destination?.timezone : flight.origin?.timezone;
+        const flightTime = timeField ? new Date(timeField).toLocaleString("en-US", { timeZone: timezone }) : 'Unknown';
 
         const row = `
             <tr>
-                <td>${city || 'Unknown'}</td>
-                <td>${airportCode || 'N/A'}</td>
+                <td>${city}</td>
+                <td>${airportCode}</td>
                 <td><img src="${imgElement.src}" alt="${airlineCode} Logo" class="airline-logo"></td>
                 <td>${displayFlightCode}</td>
                 <td>${flightTime}</td>
-                <td>${status || 'Unknown'}</td>
+                <td>${status}</td>
             </tr>`;
 
         tbody.innerHTML += row;
