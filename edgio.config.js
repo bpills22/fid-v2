@@ -4,7 +4,7 @@ module.exports = {
 
   origins: [
     {
-      name: "origin", // Nginx origin
+      name: "nginx", // Nginx origin
       override_host_header: "164.92.178.144",
       hosts: [
         {
@@ -17,7 +17,7 @@ module.exports = {
       },
     },
     {
-      name: "flightaware", // New FlightAware origin
+      name: "flightaware", // FlightAware origin
       override_host_header: "aeroapi.flightaware.com", // Override the host header with the FlightAware API hostname
       hosts: [
         {
@@ -30,7 +30,7 @@ module.exports = {
       },
     },
     {
-      name: "digitalocean", // New DigitalOcean origin
+      name: "digitalocean", // DigitalOcean origin
       override_host_header: "edgio.nyc3.digitaloceanspaces.com", // Override the host header with DigitalOcean hostname
       hosts: [
         {
@@ -43,7 +43,17 @@ module.exports = {
       },
     },
   ],
+
+  environments: {
+    default: {
+      hostnames: [
+        { hostname: "flightaware.bpillsbury.com", default_origin_name: "nginx" }, // Points to Nginx origin
+        { hostname: "assets-flightaware.bpillsbury.com", default_origin_name: "digitalocean" }, // Points to DigitalOcean origin
+      ],
+    },
+  },
 };
+
 
 
 
