@@ -1,3 +1,5 @@
+//require('dotenv').config()
+
 module.exports = {
   name: "flight-aware-v2",
   purgeCacheOnDeploy: true,

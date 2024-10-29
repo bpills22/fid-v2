@@ -2,3 +2,4 @@
 /.edgio
 
 /node_modules
+.env

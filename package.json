@@ -20,6 +20,7 @@
   "devDependencies": {
     "@edgio/cli": "^7.13.8",
     "@edgio/core": "^7.13.8",
-    "@edgio/prefetch": "^7.13.8"
+    "@edgio/prefetch": "^7.13.8",
+    "dotenv": "^16.4.5"
   }
 }
