@@ -189,3 +189,39 @@ document.getElementById("next-btn-bottom").addEventListener("click", () => {
 document.getElementById("prev-btn-bottom").addEventListener("click", () => {
   document.getElementById("prev-btn").click();
 });
+
+// Function to update the airport logo based on selected airport
+function updateAirportLogo(airportCode) {
+  const logoUrl = `https://assets-flightaware.bpillsbury.com/fid-board/logos/${airportCode.toLowerCase()}.png`;
+  const airportLogo = document.getElementById("airport-logo");
+  const logoContainer = document.getElementById("airport-logo-container");
+
+  // Set the logo's src attribute to the corresponding airport logo URL
+  airportLogo.src = logoUrl;
+  airportLogo.style.display = "block"; // Make sure the logo is displayed
+
+  // Handle the case where the logo doesn't exist (fallback)
+  airportLogo.onerror = function () {
+    this.src = ""; // Optionally, set a default logo or leave empty
+    this.style.display = "none"; // Hide the logo if not found
+  };
+}
+
+// Event listener for the Submit button (updated to include logo change)
+document.getElementById("submit-btn").addEventListener("click", () => {
+  const airportCode = document.getElementById("airport-select").value;
+  previousPages = [];
+  currentPageUrl = null;
+
+  const flightType = document
+    .getElementById("departures-btn")
+    .classList.contains("active")
+    ? "departures"
+    : "arrivals";
+
+  updateTableHeaders(flightType);
+  fetchFlights(airportCode, flightType);
+
+  // Update the airport logo when the user submits the form
+  updateAirportLogo(airportCode);
+});

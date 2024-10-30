@@ -113,6 +113,23 @@ table td.logo-column {
     /* Optional: Add padding to create space between the logo and the cell's edge */
 }
 
+.logo-and-selector-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+}
+
+#airport-logo-container {
+    margin-right: 20px; /* Space between logo and selector */
+}
+
+#airport-logo {
+    max-width: 500px; /* Adjusted size */
+    max-height: 200px; /* Adjusted size */
+    display: block;
+}
+
 .pagination-container {
     display: flex;
     justify-content: flex-end;
