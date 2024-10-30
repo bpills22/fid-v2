@@ -192,7 +192,7 @@ document.getElementById("prev-btn-bottom").addEventListener("click", () => {
 
 // Function to update the airport logo based on selected airport
 function updateAirportLogo(airportCode) {
-  const logoUrl = `https://assets-flightaware.bpillsbury.com/fid-board/logos/${airportCode.toLowerCase()}.png`;
+  const logoUrl = `https://assets-flightaware.bpillsbury.com/fis-board/logos/${airportCode.toLowerCase()}.png`;
   const airportLogo = document.getElementById("airport-logo");
   const logoContainer = document.getElementById("airport-logo-container");
 
