@@ -115,13 +115,15 @@ table td.logo-column {
 
 .logo-and-selector-container {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     margin: 20px;
+    width: 80%;
 }
 
 #airport-logo-container {
     margin-right: 20px; /* Space between logo and selector */
+    flex-shrink: 0;
 }
 
 #airport-logo {
