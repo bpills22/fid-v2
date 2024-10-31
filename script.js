@@ -196,14 +196,16 @@ function updateAirportLogo(airportCode) {
   const airportLogo = document.getElementById("airport-logo");
   const logoContainer = document.getElementById("airport-logo-container");
 
+  // Make sure the entire logo container is displayed
+  logoContainer.style.display = "block";
+
   // Set the logo's src attribute to the corresponding airport logo URL
   airportLogo.src = logoUrl;
-  airportLogo.style.display = "block"; // Make sure the logo is displayed
 
   // Handle the case where the logo doesn't exist (fallback)
   airportLogo.onerror = function () {
     this.src = ""; // Optionally, set a default logo or leave empty
-    this.style.display = "none"; // Hide the logo if not found
+    logoContainer.style.display = "none"; // Hide the container if not found
   };
 }
 
