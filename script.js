@@ -198,6 +198,7 @@ function updateAirportLogo(airportCode) {
 
   // Make sure the entire logo container is displayed
   logoContainer.style.display = "block";
+  airportLogo.style.display = "block";
 
   // Set the logo's src attribute to the corresponding airport logo URL
   airportLogo.src = logoUrl;
