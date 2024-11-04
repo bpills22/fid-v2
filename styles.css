@@ -42,16 +42,12 @@ h1 {
     background-color: #c0c0c0;
     color: white;
     cursor: pointer;
-    /* Allow interaction */
     border: 2px solid transparent;
-    /* Add a transparent border */
 }
 
 .button-container button.inactive:hover {
     background-color: #b0b0b0;
-    /* Slightly darker gray on hover */
     border: 2px solid #888;
-    /* Highlighted border on hover */
 }
 
 select {
@@ -88,29 +84,22 @@ td {
     width: 200px;
     height: 50px;
     object-fit: contain;
-    /* Ensures the image fits within the specified dimensions without distortion */
     display: block;
     margin: 0;
-    /* Removes centering and ensures left alignment */
 }
 
 /* Adjust vertical alignment of the table cells */
 td,
 th {
     vertical-align: middle;
-    /* Ensure text and images are aligned in the middle of the row */
 }
 
 /* Adjust the table column for the airline logo */
 table td.logo-column {
     width: 220px;
-    /* Space for the logo */
     text-align: left;
-    /* Left-align the logo */
     vertical-align: middle;
-    /* Ensure the logos are aligned vertically */
     padding-left: 10px;
-    /* Optional: Add padding to create space between the logo and the cell's edge */
 }
 
 .logo-and-selector-container {
@@ -127,18 +116,23 @@ table td.logo-column {
 }
 
 #airport-logo {
-    max-width: 250px; /* Adjusted size */
-    max-height: 100px; /* Adjusted size */
+    max-width: 250px;
+    max-height: 100px;
     display: block;
 }
 
 .centered-selector {
     display: flex;
-    flex-direction: column;
     align-items: center;
+    gap: 10px; /* Space between elements in the selector container */
 }
 
-/* Center the dropdown and label */
+/* Inline button container styling */
+.button-container-inline {
+    display: flex;
+    gap: 10px; /* Space between the Arrivals and Departures buttons */
+}
+
 .centered-selector label,
 .centered-selector select,
 .centered-selector button {
