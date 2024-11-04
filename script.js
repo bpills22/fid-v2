@@ -227,3 +227,14 @@ document.getElementById("submit-btn").addEventListener("click", () => {
   // Update the airport logo when the user submits the form
   updateAirportLogo(airportCode);
 });
+
+// Function to initialize the page with the Austin (KAUS) logo and fetch Austin arrivals data
+function initializeDefaultAirport() {
+  const defaultAirportCode = "kaus"; // Austin airport code
+  updateAirportLogo(defaultAirportCode); // Load Austin logo
+  fetchFlights(defaultAirportCode, "arrivals"); // Load Austin arrivals data
+  updateTableHeaders("arrivals"); // Set the table headers for arrivals
+}
+
+// Call initializeDefaultAirport when the page loads
+window.onload = initializeDefaultAirport;
