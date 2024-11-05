@@ -8,15 +8,13 @@ export async function handleHttpRequest(request, context) {
     // Retrieve cursor if available in the request query parameters
     const cursor = new URL(request.url).searchParams.get("cursor");
 
-    // Construct the base API URL for the FlightAware API
+    // Construct the base API URL with max_pages
     const apiKey = context.environmentVars.apikey;
     let apiUrl = `https://aeroapi.flightaware.com/aeroapi/airports/${airportCode}/flights/${flightType}?max_pages=2`;
 
-    // Append cursor if it exists, handling query string syntax
+    // Append cursor if it exists, using & since max_pages is already in the URL
     if (cursor) {
-      apiUrl += apiUrl.includes("?")
-        ? `&cursor=${cursor}`
-        : `?cursor=${cursor}`;
+      apiUrl += `&cursor=${cursor}`;
     }
 
     // Log the constructed API URL for debugging
