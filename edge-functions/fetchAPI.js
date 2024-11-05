@@ -5,12 +5,17 @@ export async function handleHttpRequest(request, context) {
     const airportCode = pathSegments[3]; // e.g., 'kaus'
     const flightType = pathSegments[4]; // e.g., 'arrivals' or 'departures'
 
-    // Construct the API URL for the FlightAware API
-    const apiKey = context.environmentVars.apikey;
-    const baseUrl = "https://aeroapi.flightaware.com/aeroapi/airports";
-    const apiUrl = `${baseUrl}/${airportCode}/flights/${flightType}?max_pages=2`;
+    // Retrieve cursor if available in the request query parameters
+    const cursor = new URL(request.url).searchParams.get("cursor");
 
-    // Restore logging the constructed API URL
+    // Construct the base API URL for the FlightAware API
+    const apiKey = context.environmentVars.apikey;
+    const baseUrl = `https://aeroapi.flightaware.com/aeroapi/airports/${airportCode}/flights/${flightType}?max_pages=2`;
+
+    // Append cursor if it exists
+    const apiUrl = cursor ? `${baseUrl}&cursor=${cursor}` : baseUrl;
+
+    // Log the constructed API URL for debugging
     console.log("Constructed API URL:", apiUrl);
 
     // Fetch the data from FlightAware API
@@ -23,11 +28,7 @@ export async function handleHttpRequest(request, context) {
       },
     });
 
-    // Remove logging the raw apiResponse since it's not helpful
-    // console.log('apiResponse:', apiResponse);
-
     if (!apiResponse.ok) {
-      // Log the response status and text if it's not OK
       console.log(
         "Error: API request failed with status:",
         apiResponse.status,
@@ -39,7 +40,7 @@ export async function handleHttpRequest(request, context) {
       });
     }
 
-    // Parse the response data (but don't log it)
+    // Parse the response data
     const data = await apiResponse.json();
 
     // Return the response to the client
@@ -48,7 +49,6 @@ export async function handleHttpRequest(request, context) {
       headers: { "Content-Type": "application/json" },
     });
   } catch (error) {
-    // Log the error in case of a failure
     console.error("Error in Edge Function:", error);
     return new Response(`Internal Server Error: ${error.message}`, {
       status: 500,

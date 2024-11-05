@@ -31,7 +31,9 @@ async function fetchFlights(
 
     // Update pagination links from the response
     if (data.links && data.links.next) {
-      nextPageUrl = `?cursor=${data.links.next.split("cursor=")[1]}`;
+      nextPageUrl = `/api/flights/${airportCode}/${flightType}?cursor=${
+        data.links.next.split("cursor=")[1]
+      }`;
       document.getElementById("next-btn").disabled = false;
       document.getElementById("next-btn-bottom").disabled = false;
     } else {
