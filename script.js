@@ -3,8 +3,13 @@ let previousPages = []; // Store previous pages to allow going back
 let nextPageUrl = null; // Store next page URL from the API
 
 // Function to fetch and populate flights for arrivals or departures
-async function fetchFlights(airportCode, flightType = "arrivals") {
-  const url = `/api/flights/${airportCode}/${flightType}`;
+async function fetchFlights(
+  airportCode,
+  flightType = "arrivals",
+  pageUrl = null
+) {
+  // Use pageUrl if provided; otherwise, build the default API URL
+  const url = pageUrl || `/api/flights/${airportCode}/${flightType}`;
 
   // Ensure the debug-info div exists before writing to it
   const debugInfo = document.getElementById("debug-info");
@@ -22,11 +27,13 @@ async function fetchFlights(airportCode, flightType = "arrivals") {
     }
 
     const data = await response.json();
-    populateFlights(data, flightType); // Pass flightType to differentiate between arrivals and departures
+    populateFlights(data, flightType); // Populate the table with flight data
 
-    // Handle pagination links for the 'Next' and 'Previous' buttons
+    // Update pagination links from the response
     if (data.links && data.links.next) {
-      nextPageUrl = data.links.next;
+      nextPageUrl = `/api/flights/${airportCode}/${flightType}?cursor=${
+        data.links.next.split("=")[1]
+      }`;
       document.getElementById("next-btn").disabled = false;
       document.getElementById("next-btn-bottom").disabled = false;
     } else {
@@ -139,34 +146,36 @@ document.getElementById("departures-btn").addEventListener("click", () => {
   fetchFlights(airportCode, "departures");
 });
 
-// Pagination event listeners
+// Event listener for "Next Page" button
 document.getElementById("next-btn").addEventListener("click", () => {
-  const airportCode = document.getElementById("airport-select").value;
   if (nextPageUrl) {
-    previousPages.push(currentPageUrl);
-    currentPageUrl = nextPageUrl;
+    previousPages.push(currentPageUrl); // Store the current page before navigating
+    currentPageUrl = nextPageUrl; // Update current page URL
+    const airportCode = document.getElementById("airport-select").value;
     const flightType = document
       .getElementById("departures-btn")
       .classList.contains("active")
       ? "departures"
       : "arrivals";
-    fetchFlights(airportCode, flightType);
+    fetchFlights(airportCode, flightType, nextPageUrl); // Fetch the next page
   }
 });
 
+// Event listener for "Previous Page" button
 document.getElementById("prev-btn").addEventListener("click", () => {
-  const airportCode = document.getElementById("airport-select").value;
   if (previousPages.length > 0) {
-    currentPageUrl = previousPages.pop();
+    currentPageUrl = previousPages.pop(); // Retrieve the last page URL
+    const airportCode = document.getElementById("airport-select").value;
     const flightType = document
       .getElementById("departures-btn")
       .classList.contains("active")
       ? "departures"
       : "arrivals";
-    fetchFlights(airportCode, flightType);
+    fetchFlights(airportCode, flightType, currentPageUrl); // Fetch the previous page
   }
 });
 
+// Duplicate "Next" and "Previous" for the bottom buttons
 document.getElementById("next-btn-bottom").addEventListener("click", () => {
   document.getElementById("next-btn").click();
 });
