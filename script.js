@@ -152,19 +152,7 @@ document.getElementById("next-btn").addEventListener("click", () => {
     previousPages.push(currentPageUrl); // Store the current page before navigating
     currentPageUrl = nextPageUrl; // Update current page URL
 
-    const airportCode = document.getElementById("airport-select").value;
-    const flightType = document
-      .getElementById("departures-btn")
-      .classList.contains("active")
-      ? "departures"
-      : "arrivals";
-
-    // Fetch the next page using only the cursor
-    fetchFlights(
-      airportCode,
-      flightType,
-      `/api/flights/${airportCode}/${flightType}${nextPageUrl}`
-    );
+    fetchFlights(null, null, nextPageUrl); // Fetch the next page using nextPageUrl
   }
 });
 
@@ -172,15 +160,7 @@ document.getElementById("prev-btn").addEventListener("click", () => {
   if (previousPages.length > 0) {
     currentPageUrl = previousPages.pop(); // Retrieve the last page URL
 
-    const airportCode = document.getElementById("airport-select").value;
-    const flightType = document
-      .getElementById("departures-btn")
-      .classList.contains("active")
-      ? "departures"
-      : "arrivals";
-
-    // Fetch the previous page using only the cursor
-    fetchFlights(airportCode, flightType, currentPageUrl);
+    fetchFlights(null, null, currentPageUrl); // Fetch the previous page using currentPageUrl
   }
 });
 
