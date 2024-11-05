@@ -10,10 +10,12 @@ export async function handleHttpRequest(request, context) {
 
     // Construct the base API URL for the FlightAware API
     const apiKey = context.environmentVars.apikey;
-    const baseUrl = `https://aeroapi.flightaware.com/aeroapi/airports/${airportCode}/flights/${flightType}?max_pages=2`;
+    let apiUrl = `https://aeroapi.flightaware.com/aeroapi/airports/${airportCode}/flights/${flightType}?max_pages=2`;
 
-    // Append cursor if it exists
-    const apiUrl = cursor ? `${baseUrl}&cursor=${cursor}` : baseUrl;
+    // Append cursor if it exists and is not already part of apiUrl
+    if (cursor) {
+      apiUrl += `&cursor=${cursor}`;
+    }
 
     // Log the constructed API URL for debugging
     console.log("Constructed API URL:", apiUrl);
