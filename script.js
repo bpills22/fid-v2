@@ -31,9 +31,7 @@ async function fetchFlights(
 
     // Update pagination links from the response
     if (data.links && data.links.next) {
-      nextPageUrl = `/api/flights/${airportCode}/${flightType}?cursor=${
-        data.links.next.split("=")[1]
-      }`;
+      nextPageUrl = `?cursor=${data.links.next.split("cursor=")[1]}`;
       document.getElementById("next-btn").disabled = false;
       document.getElementById("next-btn-bottom").disabled = false;
     } else {
@@ -148,35 +146,39 @@ document.getElementById("departures-btn").addEventListener("click", () => {
 
 // Pagination event listeners
 document.getElementById("next-btn").addEventListener("click", () => {
-  const airportCode = document.getElementById("airport-select").value;
   if (nextPageUrl) {
-    previousPages.push(currentPageUrl);
-    currentPageUrl = nextPageUrl;
+    previousPages.push(currentPageUrl); // Store the current page before navigating
+    currentPageUrl = nextPageUrl; // Update current page URL
 
+    const airportCode = document.getElementById("airport-select").value;
     const flightType = document
       .getElementById("departures-btn")
       .classList.contains("active")
       ? "departures"
       : "arrivals";
 
-    // Update fetch URL with cursor
-    const urlWithCursor = `/api/flights/${airportCode}/${flightType}${nextPageUrl}`;
-    fetchFlightsWithCursor(urlWithCursor, flightType);
+    // Fetch the next page using only the cursor
+    fetchFlights(
+      airportCode,
+      flightType,
+      `/api/flights/${airportCode}/${flightType}${nextPageUrl}`
+    );
   }
 });
 
 document.getElementById("prev-btn").addEventListener("click", () => {
-  const airportCode = document.getElementById("airport-select").value;
   if (previousPages.length > 0) {
-    currentPageUrl = previousPages.pop();
+    currentPageUrl = previousPages.pop(); // Retrieve the last page URL
 
+    const airportCode = document.getElementById("airport-select").value;
     const flightType = document
       .getElementById("departures-btn")
       .classList.contains("active")
       ? "departures"
       : "arrivals";
 
-    fetchFlightsWithCursor(currentPageUrl, flightType);
+    // Fetch the previous page using only the cursor
+    fetchFlights(airportCode, flightType, currentPageUrl);
   }
 });
 
@@ -187,33 +189,6 @@ document.getElementById("next-btn-bottom").addEventListener("click", () => {
 document.getElementById("prev-btn-bottom").addEventListener("click", () => {
   document.getElementById("prev-btn").click();
 });
-
-// Modified fetch function to accept a cursor URL
-async function fetchFlightsWithCursor(url, flightType) {
-  try {
-    const response = await fetch(url, { method: "GET" });
-
-    if (!response.ok) {
-      throw new Error(`API request failed with status ${response.status}`);
-    }
-
-    const data = await response.json();
-    populateFlights(data, flightType);
-
-    // Update pagination links based on response data
-    nextPageUrl = data.links?.next
-      ? `?cursor=${data.links.next.split("cursor=")[1]}`
-      : null;
-    document.getElementById("next-btn").disabled = !nextPageUrl;
-    document.getElementById("next-btn-bottom").disabled = !nextPageUrl;
-
-    document.getElementById("prev-btn").disabled = previousPages.length === 0;
-    document.getElementById("prev-btn-bottom").disabled =
-      previousPages.length === 0;
-  } catch (error) {
-    console.error("Error fetching flight data with cursor:", error);
-  }
-}
 
 // Function to update the airport logo based on selected airport
 function updateAirportLogo(airportCode) {
