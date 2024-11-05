@@ -12,9 +12,11 @@ export async function handleHttpRequest(request, context) {
     const apiKey = context.environmentVars.apikey;
     let apiUrl = `https://aeroapi.flightaware.com/aeroapi/airports/${airportCode}/flights/${flightType}?max_pages=2`;
 
-    // Append cursor if it exists and is not already part of apiUrl
+    // Append cursor if it exists, handling query string syntax
     if (cursor) {
-      apiUrl += `&cursor=${cursor}`;
+      apiUrl += apiUrl.includes("?")
+        ? `&cursor=${cursor}`
+        : `?cursor=${cursor}`;
     }
 
     // Log the constructed API URL for debugging
