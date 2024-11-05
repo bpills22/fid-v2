@@ -119,21 +119,6 @@ function updateTableHeaders(flightType) {
   }
 }
 
-// Event listener for Submit button
-document.getElementById("submit-btn").addEventListener("click", () => {
-  const airportCode = document.getElementById("airport-select").value;
-  previousPages = [];
-  currentPageUrl = null;
-
-  const flightType = document
-    .getElementById("departures-btn")
-    .classList.contains("active")
-    ? "departures"
-    : "arrivals";
-  updateTableHeaders(flightType);
-  fetchFlights(airportCode, flightType);
-});
-
 // Event listener for Arrivals button
 document.getElementById("arrivals-btn").addEventListener("click", () => {
   document.getElementById("arrivals-btn").classList.add("active");
@@ -210,8 +195,8 @@ function updateAirportLogo(airportCode) {
   };
 }
 
-// Event listener for the Submit button (updated to include logo change)
-document.getElementById("submit-btn").addEventListener("click", () => {
+// Event listener for airport selection change
+document.getElementById("airport-select").addEventListener("change", () => {
   const airportCode = document.getElementById("airport-select").value;
   previousPages = [];
   currentPageUrl = null;
@@ -224,8 +209,6 @@ document.getElementById("submit-btn").addEventListener("click", () => {
 
   updateTableHeaders(flightType);
   fetchFlights(airportCode, flightType);
-
-  // Update the airport logo when the user submits the form
   updateAirportLogo(airportCode);
 });
 
