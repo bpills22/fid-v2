@@ -14,7 +14,11 @@ export async function handleHttpRequest(request, context) {
 
     // Append cursor as an additional parameter if it exists
     if (cursor) {
-      apiUrl += `&cursor=${cursor}`;
+      if (apiUrl.includes("?")) {
+        apiUrl += `&cursor=${cursor}`;
+      } else {
+        apiUrl += `?cursor=${cursor}`;
+      }
     }
 
     // Log the constructed API URL for debugging
