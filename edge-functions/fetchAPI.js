@@ -17,7 +17,7 @@ export async function handleHttpRequest(request, context) {
       apiUrl += `&cursor=${cursor}`;
     }
 
-    // Ensure the constructed URL is logged correctly
+    // Log the constructed API URL for debugging
     console.log("Constructed API URL:", apiUrl);
 
     // Fetch the data from FlightAware API
