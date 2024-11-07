@@ -2,6 +2,7 @@
 
 module.exports = {
   name: "flight-aware-v2",
+  organization: "se-apps",
   purgeCacheOnDeploy: true,
 
   origins: [
@@ -49,13 +50,15 @@ module.exports = {
   environments: {
     default: {
       hostnames: [
-        { hostname: "flightaware.bpillsbury.com", default_origin_name: "nginx" }, // Points to Nginx origin
-        { hostname: "assets-flightaware.bpillsbury.com", default_origin_name: "digitalocean" }, // Points to DigitalOcean origin
+        {
+          hostname: "flightaware.bpillsbury.com",
+          default_origin_name: "nginx",
+        }, // Points to Nginx origin
+        {
+          hostname: "assets-flightaware.bpillsbury.com",
+          default_origin_name: "digitalocean",
+        }, // Points to DigitalOcean origin
       ],
     },
   },
 };
-
-
-
-
