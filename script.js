@@ -77,6 +77,7 @@ function populateFlights(data, flightType) {
         : flight.origin?.code_iata || "N/A";
     const flightCode = flight.ident_iata || "General Aviation";
     const status = flight.status || "Unknown";
+    const aircraftType = flight.aircraft_type || "Unknown";
 
     const isGeneralAviation = flight.type === "General_Aviation";
     const airlineCode = isGeneralAviation ? "GA" : flight.operator_iata || "GA";
@@ -121,6 +122,7 @@ function populateFlights(data, flightType) {
           <td>${displayFlightCode}</td>
           <td>${flightTime}</td>
           <td>${status}</td>
+          <td>${aircraftType}</td>
       </tr>`;
 
     tbody.innerHTML += row;
