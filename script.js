@@ -92,12 +92,22 @@ function populateFlights(data, flightType) {
     const displayFlightCode = isGeneralAviation
       ? "General Aviation"
       : flightCode;
-    const timeField =
-      flightType === "departures" ? flight.estimated_out : flight.actual_on;
+
+    // Determine the appropriate time field for arrivals
+    let timeField;
+    if (flightType === "arrivals") {
+      timeField =
+        flight.actual_on || flight.estimated_on || flight.scheduled_on;
+    } else {
+      timeField = flight.estimated_out || flight.scheduled_out;
+    }
+
     const timezone =
-      flightType === "departures"
+      flightType === "arrivals"
         ? flight.destination?.timezone
         : flight.origin?.timezone;
+
+    // Convert time to the local timezone of the arrival airport
     const flightTime = timeField
       ? new Date(timeField).toLocaleString("en-US", { timeZone: timezone })
       : "Unknown";
