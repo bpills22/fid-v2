@@ -93,13 +93,14 @@ function populateFlights(data, flightType) {
       ? "General Aviation"
       : flightCode;
 
-    // Determine the appropriate time field for arrivals
+    // Determine the appropriate time field for both arrivals and departures
     let timeField;
     if (flightType === "arrivals") {
       timeField =
         flight.actual_on || flight.estimated_on || flight.scheduled_on;
     } else {
-      timeField = flight.estimated_out || flight.scheduled_out;
+      timeField =
+        flight.actual_out || flight.estimated_out || flight.scheduled_out;
     }
 
     const timezone =
@@ -107,20 +108,20 @@ function populateFlights(data, flightType) {
         ? flight.destination?.timezone
         : flight.origin?.timezone;
 
-    // Convert time to the local timezone of the arrival airport
+    // Convert time to the local timezone of the relevant airport
     const flightTime = timeField
       ? new Date(timeField).toLocaleString("en-US", { timeZone: timezone })
       : "Unknown";
 
     const row = `
-            <tr>
-                <td>${city}</td>
-                <td>${airportCode}</td>
-                <td><img src="${imgElement.src}" alt="${airlineCode} Logo" class="airline-logo"></td>
-                <td>${displayFlightCode}</td>
-                <td>${flightTime}</td>
-                <td>${status}</td>
-            </tr>`;
+      <tr>
+          <td>${city}</td>
+          <td>${airportCode}</td>
+          <td><img src="${imgElement.src}" alt="${airlineCode} Logo" class="airline-logo"></td>
+          <td>${displayFlightCode}</td>
+          <td>${flightTime}</td>
+          <td>${status}</td>
+      </tr>`;
 
     tbody.innerHTML += row;
   });
