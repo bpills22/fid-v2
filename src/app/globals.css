@@ -1,42 +1,163 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-html,
 body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-* {
-  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #0077B5, #00A1D6);
+  color: white;
+  margin: 0;
   padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+h1 {
+  font-size: 36px;
+  margin-top: 20px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+}
+
+.button-container button {
+  font-size: 18px;
+  margin: 0 10px;
+  padding: 10px 20px;
+  background-color: #00A1D6;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.button-container button.active {
+  background-color: #00A1D6;
+  color: white;
+}
+
+.button-container button.inactive {
+  background-color: #c0c0c0;
+  color: white;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.button-container button.inactive:hover {
+  background-color: #b0b0b0;
+  border: 2px solid #888;
+}
+
+select {
+  font-size: 16px;
+  padding: 5px;
+  border-radius: 5px;
+  margin: 20px 10px;
+}
+
+table {
+  width: 80%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  color: white;
+}
+
+th {
+  background-color: #0077B5;
+}
+
+td {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* Airline logo styling */
+.airline-logo {
+  width: 200px;
+  height: 50px;
+  object-fit: contain;
+  display: block;
   margin: 0;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+/* Adjust vertical alignment of the table cells */
+td,
+th {
+  vertical-align: middle;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+/* Adjust the table column for the airline logo */
+table td.logo-column {
+  width: 220px;
+  text-align: left;
+  vertical-align: middle;
+  padding-left: 10px;
+}
+
+.logo-and-selector-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+  width: 100%;
+}
+
+#airport-logo-container {
+  display: none; /* Hidden initially, will be shown dynamically */
+  margin-right: 20px;
+}
+
+#airport-logo {
+  max-width: 250px;
+  max-height: 100px;
+  display: block;
+}
+
+.centered-selector {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Space between elements in the selector container */
+}
+
+/* Inline button container styling */
+.button-container-inline {
+  display: flex;
+  gap: 10px; /* Space between the Arrivals and Departures buttons */
+}
+
+.centered-selector label,
+.centered-selector select,
+.centered-selector button {
+  margin: 10px 0;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center; /* Change from flex-end to center */
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+
+.pagination-container button {
+  padding: 8px 15px;
+  background-color: #00A1D6;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.pagination-container button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
 }
