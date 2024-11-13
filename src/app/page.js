@@ -13,9 +13,11 @@ import {
   TableRow,
   Paper,
   IconButton,
+  TextField,
+  InputAdornment,
 } from "@mui/material";
-// import { ArrowUpward, ArrowDownward } from "@mui/icons-material";
 import { ArrowDropUp, ArrowDropDown } from "@mui/icons-material";
+import SearchIcon from "@mui/icons-material/Search";
 
 export default function HomePage() {
   const [currentPageUrl, setCurrentPageUrl] = useState(null);
@@ -27,6 +29,7 @@ export default function HomePage() {
   const [debugInfo, setDebugInfo] = useState("");
   const [logoUrl, setLogoUrl] = useState("");
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
+  const [searchQuery, setSearchQuery] = useState("");
 
   // Mock data for local testing
   const mockFlightData = [
@@ -172,11 +175,53 @@ export default function HomePage() {
     );
   };
 
+  const filteredFlightData = flightData
+    .filter((flight) => {
+      const query = searchQuery.toLowerCase();
+      return flight.operator_iata?.toLowerCase().includes(query) ||
+        flight.ident_iata?.toLowerCase().includes(query) ||
+        flightType === "arrivals"
+        ? flight.origin?.city?.toLowerCase().includes(query)
+        : flight.destination?.city?.toLowerCase().includes(query);
+    })
+    .concat(
+      flightData.filter((flight) => {
+        const query = searchQuery.toLowerCase();
+        return !(flight.operator_iata?.toLowerCase().includes(query) ||
+        flight.ident_iata?.toLowerCase().includes(query) ||
+        flightType === "arrivals"
+          ? flight.origin?.city?.toLowerCase().includes(query)
+          : flight.destination?.city?.toLowerCase().includes(query));
+      })
+    );
+
+  const displayedFlightData = searchQuery ? filteredFlightData : flightData;
+
   return (
     <Container>
       <Typography variant="h3" gutterBottom>
         FlightAware Arrivals and Departures Information
       </Typography>
+
+      <TextField
+        placeholder="Search by flight #, city, or airline"
+        variant="outlined"
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon />
+            </InputAdornment>
+          ),
+        }}
+        style={{
+          marginBottom: "20px",
+          maxWidth: "400px",
+          backgroundColor: "white",
+          borderRadius: "25px",
+        }}
+      />
 
       <div className="logo-and-selector-container">
         {logoUrl && (
@@ -189,7 +234,7 @@ export default function HomePage() {
         )}
 
         <div className="centered-selector">
-          <Typography variant="body1">Choose an airport:</Typography>
+          <Typography variant="body1">Select an Airport:</Typography>
           <Select
             value={selectedAirport}
             onChange={handleSelectChange}
@@ -340,39 +385,41 @@ export default function HomePage() {
           </TableHead>
 
           <TableBody>
-            {flightData.length > 0 ? (
-              flightData.map((flight, index) => (
-                <TableRow
-                  key={index}
-                  style={{
-                    backgroundColor: index % 2 === 0 ? "#e0f7fa" : "#ffffff",
-                  }}
-                >
-                  <TableCell>
-                    {flightType === "departures"
-                      ? flight.destination?.city || "Unknown"
-                      : flight.origin?.city || "Unknown"}
-                  </TableCell>
-                  <TableCell>
-                    {flightType === "departures"
-                      ? flight.destination?.code_iata || "N/A"
-                      : flight.origin?.code_iata || "N/A"}
-                  </TableCell>
-                  <TableCell>{flight.operator_iata || "GA"}</TableCell>
-                  <TableCell>
-                    {flight.ident_iata || "General Aviation"}
-                  </TableCell>
-                  <TableCell>
-                    {new Date(
-                      flight.actual_on ||
-                        flight.estimated_on ||
-                        flight.scheduled_on
-                    ).toLocaleString("en-US") || "Unknown"}
-                  </TableCell>
-                  <TableCell>{flight.status || "Unknown"}</TableCell>
-                  <TableCell>{flight.aircraft_type || "Unknown"}</TableCell>
-                </TableRow>
-              ))
+            {(searchQuery ? filteredFlightData : flightData).length > 0 ? (
+              (searchQuery ? filteredFlightData : flightData).map(
+                (flight, index) => (
+                  <TableRow
+                    key={index}
+                    style={{
+                      backgroundColor: index % 2 === 0 ? "#e0f7fa" : "#ffffff",
+                    }}
+                  >
+                    <TableCell>
+                      {flightType === "departures"
+                        ? flight.destination?.city || "Unknown"
+                        : flight.origin?.city || "Unknown"}
+                    </TableCell>
+                    <TableCell>
+                      {flightType === "departures"
+                        ? flight.destination?.code_iata || "N/A"
+                        : flight.origin?.code_iata || "N/A"}
+                    </TableCell>
+                    <TableCell>{flight.operator_iata || "GA"}</TableCell>
+                    <TableCell>
+                      {flight.ident_iata || "General Aviation"}
+                    </TableCell>
+                    <TableCell>
+                      {new Date(
+                        flight.actual_on ||
+                          flight.estimated_on ||
+                          flight.scheduled_on
+                      ).toLocaleString("en-US") || "Unknown"}
+                    </TableCell>
+                    <TableCell>{flight.status || "Unknown"}</TableCell>
+                    <TableCell>{flight.aircraft_type || "Unknown"}</TableCell>
+                  </TableRow>
+                )
+              )
             ) : (
               <TableRow>
                 <TableCell colSpan={7}>No flight data available</TableCell>
