@@ -14,7 +14,8 @@ import {
   Paper,
   IconButton,
 } from "@mui/material";
-import { ArrowUpward, ArrowDownward } from "@mui/icons-material";
+// import { ArrowUpward, ArrowDownward } from "@mui/icons-material";
+import { ArrowDropUp, ArrowDropDown } from "@mui/icons-material";
 
 export default function HomePage() {
   const [currentPageUrl, setCurrentPageUrl] = useState(null);
@@ -55,6 +56,36 @@ export default function HomePage() {
       estimated_on: "2024-11-08T15:30:00Z",
       status: "Landed / Taxiing",
       aircraft_type: "B38M",
+    },
+    {
+      destination: {
+        city: "London Heathrow",
+        code_iata: "LHR",
+        timezone: "Europe/London",
+      },
+      origin: { city: "Austin", code_iata: "AUS", timezone: "America/Chicago" },
+      operator_iata: "BA",
+      ident_iata: "BA320",
+      estimated_on: "2024-11-08T16:30:00Z",
+      status: "Landed / Taxiing",
+      aircraft_type: "A350",
+    },
+    {
+      destination: {
+        city: "Charlotte",
+        code_iata: "CLT",
+        timezone: "America/New York",
+      },
+      origin: {
+        city: "Chicago",
+        code_iata: "AUS",
+        timezone: "America/Chicago",
+      },
+      operator_iata: "AA",
+      ident_iata: "AA1462",
+      estimated_on: "2024-11-08T16:30:00Z",
+      status: "Landed / Taxiing",
+      aircraft_type: "A350",
     },
   ];
 
@@ -135,9 +166,9 @@ export default function HomePage() {
   const renderSortIcon = (key) => {
     if (sortConfig.key !== key) return null;
     return sortConfig.direction === "asc" ? (
-      <ArrowUpward fontSize="small" style={{ color: "white" }} />
+      <ArrowDropUp fontSize="small" style={{ color: "white" }} />
     ) : (
-      <ArrowDownward fontSize="small" style={{ color: "white" }} />
+      <ArrowDropDown fontSize="small" style={{ color: "white" }} />
     );
   };
 
