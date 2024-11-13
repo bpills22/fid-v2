@@ -5,7 +5,6 @@ import {
   Typography,
   Select,
   MenuItem,
-  Button,
   Table,
   TableBody,
   TableCell,
@@ -13,7 +12,9 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Link,
 } from "@mui/material";
+import { ArrowUpward, ArrowDownward } from "@mui/icons-material";
 
 export default function HomePage() {
   const [currentPageUrl, setCurrentPageUrl] = useState(null);
@@ -56,7 +57,6 @@ export default function HomePage() {
     },
   ];
 
-  // Function to fetch and populate flights for arrivals or departures
   const fetchFlights = async (
     airportCode,
     type = "arrivals",
@@ -67,12 +67,11 @@ export default function HomePage() {
 
     try {
       const response = await fetch(url, { method: "GET" });
-      if (!response.ok) {
+      if (!response.ok)
         throw new Error(`API request failed with status ${response.status}`);
-      }
+
       const data = await response.json();
       setFlightData(type === "departures" ? data.departures : data.arrivals);
-
       if (data.links && data.links.next) {
         setNextPageUrl(
           `/api/flights/${airportCode}/${type}?cursor=${
@@ -84,15 +83,15 @@ export default function HomePage() {
       }
     } catch (error) {
       console.error("Error fetching flight data:", error);
-      // Use mock data for testing
       setFlightData(mockFlightData);
       setDebugInfo("Using mock data due to API failure");
     }
   };
 
   const updateAirportLogo = (airportCode) => {
-    const logoUrl = `https://assets-flightaware.bpillsbury.com/fis-board/logos/${airportCode.toLowerCase()}.png`;
-    setLogoUrl(logoUrl);
+    setLogoUrl(
+      `https://assets-flightaware.bpillsbury.com/fis-board/logos/${airportCode.toLowerCase()}.png`
+    );
   };
 
   useEffect(() => {
@@ -114,127 +113,115 @@ export default function HomePage() {
     fetchFlights(selectedAirport, type);
   };
 
-  const handleNextPage = () => {
-    if (nextPageUrl) {
-      setPreviousPages([...previousPages, currentPageUrl]);
-      setCurrentPageUrl(nextPageUrl);
-      fetchFlights(null, null, nextPageUrl);
-    }
-  };
-
-  const handlePrevPage = () => {
-    if (previousPages.length > 0) {
-      const prevUrl = previousPages.pop();
-      setCurrentPageUrl(prevUrl);
-      setPreviousPages(previousPages);
-      fetchFlights(null, null, prevUrl);
-    }
-  };
-
   return (
     <Container>
       <Typography variant="h3" gutterBottom>
         FlightAware Arrivals and Departures Information
       </Typography>
 
-      {logoUrl && (
-        <img
-          id="airport-logo"
-          src={logoUrl}
-          alt="Airport Logo"
-          style={{ maxWidth: "250px", maxHeight: "100px", display: "block" }}
-        />
-      )}
+      <div className="logo-and-selector-container">
+        {logoUrl && (
+          <img
+            id="airport-logo"
+            src={logoUrl}
+            alt="Airport Logo"
+            style={{ maxWidth: "250px", maxHeight: "100px" }}
+          />
+        )}
 
-      <div style={{ marginTop: "20px" }}>
-        <Typography variant="body1">Choose an airport:</Typography>
-        <Select
-          value={selectedAirport}
-          onChange={handleSelectChange}
-          displayEmpty
-        >
-          <MenuItem value="kaus">Austin - KAUS - AUS</MenuItem>
-          <MenuItem value="kbos">Boston - KBOS - BOS</MenuItem>
-          <MenuItem value="kbur">Burbank - KBUR - BUR</MenuItem>
-          <MenuItem value="klax">Los Angeles Int'l - KLAX - LAX</MenuItem>
-          <MenuItem value="ksna">
-            Orange County/John Wayne - KSNA - SNA
-          </MenuItem>
-          <MenuItem value="engm">Oslo Norway - ENGM - OSL</MenuItem>
-          <MenuItem value="kphl">Philadelphia - KPHL - PHL</MenuItem>
-          <MenuItem value="kslc">Salt Lake City - KSLC - SLC</MenuItem>
-          <MenuItem value="ksan">San Diego - KSAN - SAN</MenuItem>
-          <MenuItem value="kilg">Wilmington Delaware - KILG - ILG</MenuItem>
-        </Select>
+        <div className="centered-selector">
+          <Typography variant="body1">Choose an airport:</Typography>
+          <Select
+            value={selectedAirport}
+            onChange={handleSelectChange}
+            displayEmpty
+          >
+            <MenuItem value="kaus">Austin - KAUS - AUS</MenuItem>
+            <MenuItem value="kbos">Boston - KBOS - BOS</MenuItem>
+            <MenuItem value="kbur">Burbank - KBUR - BUR</MenuItem>
+            <MenuItem value="klax">Los Angeles Int'l - KLAX - LAX</MenuItem>
+            <MenuItem value="ksna">
+              Orange County/John Wayne - KSNA - SNA
+            </MenuItem>
+            <MenuItem value="engm">Oslo Norway - ENGM - OSL</MenuItem>
+            <MenuItem value="kphl">Philadelphia - KPHL - PHL</MenuItem>
+            <MenuItem value="kslc">Salt Lake City - KSLC - SLC</MenuItem>
+            <MenuItem value="ksan">San Diego - KSAN - SAN</MenuItem>
+            <MenuItem value="kilg">Wilmington Delaware - KILG - ILG</MenuItem>
+          </Select>
+
+          <div className="flight-type-links">
+            <Typography
+              variant="body1"
+              onClick={() => handleFlightTypeChange("arrivals")}
+              style={{
+                cursor: "pointer",
+                fontWeight: flightType === "arrivals" ? "bold" : "normal",
+                color: flightType === "arrivals" ? "black" : "inherit",
+                borderBottom:
+                  flightType === "arrivals" ? "3px solid #FFC107" : "none",
+              }}
+            >
+              Arrivals
+            </Typography>
+            <Typography
+              variant="body1"
+              onClick={() => handleFlightTypeChange("departures")}
+              style={{
+                cursor: "pointer",
+                fontWeight: flightType === "departures" ? "bold" : "normal",
+                color: flightType === "departures" ? "black" : "inherit",
+                borderBottom:
+                  flightType === "departures" ? "3px solid #FFC107" : "none",
+                marginLeft: "10px",
+              }}
+            >
+              Departures
+            </Typography>
+          </div>
+        </div>
       </div>
 
-      <div style={{ marginTop: "20px", display: "flex", gap: "10px" }}>
-        <Button
-          variant="contained"
-          onClick={() => handleFlightTypeChange("arrivals")}
-        >
-          Arrivals
-        </Button>
-        <Button
-          variant="contained"
-          onClick={() => handleFlightTypeChange("departures")}
-        >
-          Departures
-        </Button>
-      </div>
-
-      <div
-        style={{
-          color: "red",
-          fontSize: "14px",
-          fontWeight: "bold",
-          marginTop: "10px",
-        }}
-      >
+      <Typography style={{ color: "red", marginTop: "10px" }}>
         {debugInfo}
-      </div>
-
-      <div
-        style={{
-          marginTop: "20px",
-          display: "flex",
-          justifyContent: "flex-end",
-          gap: "10px",
-        }}
-      >
-        <Button
-          variant="contained"
-          onClick={handlePrevPage}
-          disabled={previousPages.length === 0}
-        >
-          Previous Page
-        </Button>
-        <Button
-          variant="contained"
-          onClick={handleNextPage}
-          disabled={!nextPageUrl}
-        >
-          Next Page
-        </Button>
-      </div>
+      </Typography>
 
       <TableContainer component={Paper} style={{ marginTop: "20px" }}>
         <Table>
           <TableHead>
-            <TableRow>
-              <TableCell>City</TableCell>
-              <TableCell>Airport Code</TableCell>
-              <TableCell>Airline</TableCell>
-              <TableCell>Flight Number</TableCell>
-              <TableCell>Arrival Time</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>Aircraft Type</TableCell>
+            <TableRow style={{ backgroundColor: "#003366" }}>
+              <TableCell style={{ fontWeight: "bold", color: "white" }}>
+                City
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "white" }}>
+                Airport Code
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "white" }}>
+                Airline
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "white" }}>
+                Flight Number
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "white" }}>
+                Arrival Time
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "white" }}>
+                Status
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "white" }}>
+                Aircraft Type
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {flightData.length > 0 ? (
               flightData.map((flight, index) => (
-                <TableRow key={index}>
+                <TableRow
+                  key={index}
+                  style={{
+                    backgroundColor: index % 2 === 0 ? "#e0f7fa" : "#ffffff",
+                  }}
+                >
                   <TableCell>
                     {flightType === "departures"
                       ? flight.destination?.city || "Unknown"
@@ -245,19 +232,7 @@ export default function HomePage() {
                       ? flight.destination?.code_iata || "N/A"
                       : flight.origin?.code_iata || "N/A"}
                   </TableCell>
-                  <TableCell>
-                    <img
-                      src={`https://assets-flightaware.bpillsbury.com/fis-board/logos/${(
-                        flight.operator_iata || "GA"
-                      ).toLowerCase()}.png`}
-                      alt={`${flight.operator_iata || "GA"} Logo`}
-                      style={{ width: "100px", objectFit: "contain" }}
-                      onError={(e) =>
-                        (e.target.src =
-                          "https://edgio.nyc3.digitaloceanspaces.com/fis-board/logos/ga.png")
-                      }
-                    />
-                  </TableCell>
+                  <TableCell>{flight.operator_iata || "GA"}</TableCell>
                   <TableCell>
                     {flight.ident_iata || "General Aviation"}
                   </TableCell>
@@ -266,12 +241,7 @@ export default function HomePage() {
                       flight.actual_on ||
                         flight.estimated_on ||
                         flight.scheduled_on
-                    ).toLocaleString("en-US", {
-                      timeZone:
-                        flightType === "arrivals"
-                          ? flight.destination?.timezone
-                          : flight.origin?.timezone,
-                    }) || "Unknown"}
+                    ).toLocaleString("en-US") || "Unknown"}
                   </TableCell>
                   <TableCell>{flight.status || "Unknown"}</TableCell>
                   <TableCell>{flight.aircraft_type || "Unknown"}</TableCell>
