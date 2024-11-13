@@ -12,7 +12,7 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Link,
+  IconButton,
 } from "@mui/material";
 import { ArrowUpward, ArrowDownward } from "@mui/icons-material";
 
@@ -25,6 +25,7 @@ export default function HomePage() {
   const [selectedAirport, setSelectedAirport] = useState("kaus");
   const [debugInfo, setDebugInfo] = useState("");
   const [logoUrl, setLogoUrl] = useState("");
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
 
   // Mock data for local testing
   const mockFlightData = [
@@ -113,6 +114,33 @@ export default function HomePage() {
     fetchFlights(selectedAirport, type);
   };
 
+  const handleSort = (key) => {
+    let direction = "asc";
+    if (sortConfig.key === key && sortConfig.direction === "asc") {
+      direction = "desc";
+    }
+    setSortConfig({ key, direction });
+
+    const sortedData = [...flightData].sort((a, b) => {
+      const aValue = key === "city" ? a.origin.city : a[key];
+      const bValue = key === "city" ? b.origin.city : b[key];
+
+      if (aValue < bValue) return direction === "asc" ? -1 : 1;
+      if (aValue > bValue) return direction === "asc" ? 1 : -1;
+      return 0;
+    });
+    setFlightData(sortedData);
+  };
+
+  const renderSortIcon = (key) => {
+    if (sortConfig.key !== key) return null;
+    return sortConfig.direction === "asc" ? (
+      <ArrowUpward fontSize="small" style={{ color: "white" }} />
+    ) : (
+      <ArrowDownward fontSize="small" style={{ color: "white" }} />
+    );
+  };
+
   return (
     <Container>
       <Typography variant="h3" gutterBottom>
@@ -190,26 +218,48 @@ export default function HomePage() {
         <Table>
           <TableHead>
             <TableRow style={{ backgroundColor: "#003366" }}>
-              <TableCell style={{ fontWeight: "bold", color: "white" }}>
-                City
+              <TableCell
+                style={{ fontWeight: "bold", color: "white" }}
+                onClick={() => handleSort("city")}
+              >
+                City {renderSortIcon("city")}
               </TableCell>
-              <TableCell style={{ fontWeight: "bold", color: "white" }}>
-                Airport Code
+              <TableCell
+                style={{ fontWeight: "bold", color: "white" }}
+                onClick={() => handleSort("code_iata")}
+              >
+                Airport Code {renderSortIcon("code_iata")}
               </TableCell>
-              <TableCell style={{ fontWeight: "bold", color: "white" }}>
-                Airline
+              <TableCell
+                style={{ fontWeight: "bold", color: "white" }}
+                onClick={() => handleSort("operator_iata")}
+              >
+                Airline {renderSortIcon("operator_iata")}
               </TableCell>
-              <TableCell style={{ fontWeight: "bold", color: "white" }}>
-                Flight Number
+              <TableCell
+                style={{ fontWeight: "bold", color: "white" }}
+                onClick={() => handleSort("ident_iata")}
+              >
+                Flight Number {renderSortIcon("ident_iata")}
               </TableCell>
-              <TableCell style={{ fontWeight: "bold", color: "white" }}>
-                Arrival Time
+              <TableCell
+                style={{ fontWeight: "bold", color: "white" }}
+                onClick={() => handleSort("arrival_time")}
+              >
+                {flightType === "arrivals" ? "Arrival Time" : "Departure Time"}{" "}
+                {renderSortIcon("arrival_time")}
               </TableCell>
-              <TableCell style={{ fontWeight: "bold", color: "white" }}>
-                Status
+              <TableCell
+                style={{ fontWeight: "bold", color: "white" }}
+                onClick={() => handleSort("status")}
+              >
+                Status {renderSortIcon("status")}
               </TableCell>
-              <TableCell style={{ fontWeight: "bold", color: "white" }}>
-                Aircraft Type
+              <TableCell
+                style={{ fontWeight: "bold", color: "white" }}
+                onClick={() => handleSort("aircraft_type")}
+              >
+                Aircraft Type {renderSortIcon("aircraft_type")}
               </TableCell>
             </TableRow>
           </TableHead>
