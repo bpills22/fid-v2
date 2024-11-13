@@ -85,7 +85,7 @@ export default function HomePage() {
       ident_iata: "AA1462",
       estimated_on: "2024-11-08T16:30:00Z",
       status: "Landed / Taxiing",
-      aircraft_type: "A350",
+      aircraft_type: "E175",
     },
   ];
 
@@ -250,50 +250,95 @@ export default function HomePage() {
           <TableHead>
             <TableRow style={{ backgroundColor: "#003366" }}>
               <TableCell
-                style={{ fontWeight: "bold", color: "white" }}
+                style={{
+                  fontWeight: "bold",
+                  color: "white",
+                  cursor: "pointer",
+                }}
                 onClick={() => handleSort("city")}
               >
-                City {renderSortIcon("city")}
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  City {renderSortIcon("city")}
+                </div>
               </TableCell>
               <TableCell
-                style={{ fontWeight: "bold", color: "white" }}
+                style={{
+                  fontWeight: "bold",
+                  color: "white",
+                  cursor: "pointer",
+                }}
                 onClick={() => handleSort("code_iata")}
               >
-                Airport Code {renderSortIcon("code_iata")}
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  Airport Code {renderSortIcon("code_iata")}
+                </div>
               </TableCell>
               <TableCell
-                style={{ fontWeight: "bold", color: "white" }}
+                style={{
+                  fontWeight: "bold",
+                  color: "white",
+                  cursor: "pointer",
+                }}
                 onClick={() => handleSort("operator_iata")}
               >
-                Airline {renderSortIcon("operator_iata")}
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  Airline {renderSortIcon("operator_iata")}
+                </div>
               </TableCell>
               <TableCell
-                style={{ fontWeight: "bold", color: "white" }}
+                style={{
+                  fontWeight: "bold",
+                  color: "white",
+                  cursor: "pointer",
+                }}
                 onClick={() => handleSort("ident_iata")}
               >
-                Flight Number {renderSortIcon("ident_iata")}
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  Flight Number {renderSortIcon("ident_iata")}
+                </div>
               </TableCell>
               <TableCell
-                style={{ fontWeight: "bold", color: "white" }}
+                style={{
+                  fontWeight: "bold",
+                  color: "white",
+                  cursor: "pointer",
+                }}
                 onClick={() => handleSort("arrival_time")}
               >
-                {flightType === "arrivals" ? "Arrival Time" : "Departure Time"}{" "}
-                {renderSortIcon("arrival_time")}
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  {flightType === "arrivals"
+                    ? "Arrival Time"
+                    : "Departure Time"}{" "}
+                  {renderSortIcon("arrival_time")}
+                </div>
               </TableCell>
               <TableCell
-                style={{ fontWeight: "bold", color: "white" }}
+                style={{
+                  fontWeight: "bold",
+                  color: "white",
+                  cursor: "pointer",
+                }}
                 onClick={() => handleSort("status")}
               >
-                Status {renderSortIcon("status")}
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  Status {renderSortIcon("status")}
+                </div>
               </TableCell>
               <TableCell
-                style={{ fontWeight: "bold", color: "white" }}
+                style={{
+                  fontWeight: "bold",
+                  color: "white",
+                  cursor: "pointer",
+                }}
                 onClick={() => handleSort("aircraft_type")}
               >
-                Aircraft Type {renderSortIcon("aircraft_type")}
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  Aircraft Type {renderSortIcon("aircraft_type")}
+                </div>
               </TableCell>
             </TableRow>
           </TableHead>
+
           <TableBody>
             {flightData.length > 0 ? (
               flightData.map((flight, index) => (
