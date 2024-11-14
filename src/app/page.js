@@ -32,67 +32,6 @@ export default function HomePage() {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Mock data for local testing
-  const mockFlightData = [
-    {
-      destination: {
-        city: "Orlando",
-        code_iata: "SFB",
-        timezone: "America/New_York",
-      },
-      origin: { city: "Austin", code_iata: "AUS", timezone: "America/Chicago" },
-      operator_iata: "GA",
-      ident_iata: "General Aviation",
-      actual_on: "2024-11-08T15:00:00Z",
-      status: "Arrived",
-      aircraft_type: "C56X",
-      type: "General_Aviation",
-    },
-    {
-      destination: {
-        city: "Phoenix",
-        code_iata: "PHX",
-        timezone: "America/Phoenix",
-      },
-      origin: { city: "Austin", code_iata: "AUS", timezone: "America/Chicago" },
-      operator_iata: "WN",
-      ident_iata: "WN1179",
-      estimated_on: "2024-11-08T15:30:00Z",
-      status: "Landed / Taxiing",
-      aircraft_type: "B38M",
-    },
-    {
-      destination: {
-        city: "London Heathrow",
-        code_iata: "LHR",
-        timezone: "Europe/London",
-      },
-      origin: { city: "Austin", code_iata: "AUS", timezone: "America/Chicago" },
-      operator_iata: "BA",
-      ident_iata: "BA320",
-      estimated_on: "2024-11-08T16:30:00Z",
-      status: "Landed / Taxiing",
-      aircraft_type: "A350",
-    },
-    {
-      destination: {
-        city: "Charlotte",
-        code_iata: "CLT",
-        timezone: "America/New York",
-      },
-      origin: {
-        city: "Chicago",
-        code_iata: "AUS",
-        timezone: "America/Chicago",
-      },
-      operator_iata: "AA",
-      ident_iata: "AA1462",
-      estimated_on: "2024-11-08T16:30:00Z",
-      status: "Landed / Taxiing",
-      aircraft_type: "E175",
-    },
-  ];
-
   const fetchFlights = async (
     airportCode,
     type = "arrivals",
@@ -119,8 +58,8 @@ export default function HomePage() {
       }
     } catch (error) {
       console.error("Error fetching flight data:", error);
-      setFlightData(mockFlightData);
-      setDebugInfo("Using mock data due to API failure");
+      setFlightData([]); // Set to an empty array instead of mock data
+      setDebugInfo("Failed to fetch data from API.");
     }
   };
 
