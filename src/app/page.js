@@ -423,21 +423,29 @@ export default function HomePage() {
                           : flight.operator_iata || "GA";
                         const logoUrl = `https://assets-flightaware.bpillsbury.com/fis-board/logos/${airlineCode.toLowerCase()}.png`;
                         return (
-                          <>
+                          <div
+                            style={{ display: "flex", alignItems: "center" }}
+                          >
                             <img
                               src={logoUrl}
                               alt={airlineCode}
                               style={{
-                                width: "50px",
-                                height: "auto",
+                                width: "150px", // adjust width as needed
+                                height: "40px", // adjust height as needed
                                 marginRight: "8px",
+                                objectFit: "contain",
                               }}
                             />
-                            {airlineCode}
-                          </>
+                            <span
+                              style={{ display: "flex", alignItems: "center" }}
+                            >
+                              {airlineCode}
+                            </span>
+                          </div>
                         );
                       })()}
                     </TableCell>
+
                     <TableCell>
                       {flight.ident_iata || "General Aviation"}
                     </TableCell>
