@@ -199,31 +199,19 @@ export default function HomePage() {
 
   return (
     <Container>
-      <Typography variant="h3" gutterBottom>
+      <Typography variant="h3" gutterBottom style={{ textAlign: "center" }}>
         FlightAware Arrivals and Departures Information
       </Typography>
 
-      <TextField
-        placeholder="Search by flight #, city, or airline"
-        variant="outlined"
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <SearchIcon />
-            </InputAdornment>
-          ),
-        }}
+      <div
         style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
           marginBottom: "20px",
-          maxWidth: "400px",
-          backgroundColor: "white",
-          borderRadius: "25px",
         }}
-      />
-
-      <div className="logo-and-selector-container">
+      >
+        {/* Left-aligned Airport Logo */}
         {logoUrl && (
           <img
             id="airport-logo"
@@ -233,7 +221,8 @@ export default function HomePage() {
           />
         )}
 
-        <div className="centered-selector">
+        {/* Centered Airport Selector with Arrivals/Departures Links */}
+        <div style={{ textAlign: "center" }}>
           <Typography variant="body1">Select an Airport:</Typography>
           <Select
             value={selectedAirport}
@@ -254,7 +243,8 @@ export default function HomePage() {
             <MenuItem value="kilg">Wilmington Delaware - KILG - ILG</MenuItem>
           </Select>
 
-          <div className="flight-type-links">
+          {/* Arrivals and Departures Links */}
+          <div className="flight-type-links" style={{ marginTop: "10px" }}>
             <Typography
               variant="body1"
               onClick={() => handleFlightTypeChange("arrivals")}
@@ -284,6 +274,26 @@ export default function HomePage() {
             </Typography>
           </div>
         </div>
+
+        {/* Right-aligned Search Box */}
+        <TextField
+          placeholder="Search by flight #, city, or airline"
+          variant="outlined"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
+          style={{
+            maxWidth: "300px",
+            backgroundColor: "white",
+            borderRadius: "25px",
+          }}
+        />
       </div>
 
       <Typography style={{ color: "red", marginTop: "10px" }}>
@@ -404,7 +414,30 @@ export default function HomePage() {
                         ? flight.destination?.code_iata || "N/A"
                         : flight.origin?.code_iata || "N/A"}
                     </TableCell>
-                    <TableCell>{flight.operator_iata || "GA"}</TableCell>
+                    <TableCell>
+                      {(() => {
+                        const isGeneralAviation =
+                          flight.type === "General_Aviation";
+                        const airlineCode = isGeneralAviation
+                          ? "GA"
+                          : flight.operator_iata || "GA";
+                        const logoUrl = `https://assets-flightaware.bpillsbury.com/fis-board/logos/${airlineCode.toLowerCase()}.png`;
+                        return (
+                          <>
+                            <img
+                              src={logoUrl}
+                              alt={airlineCode}
+                              style={{
+                                width: "50px",
+                                height: "auto",
+                                marginRight: "8px",
+                              }}
+                            />
+                            {airlineCode}
+                          </>
+                        );
+                      })()}
+                    </TableCell>
                     <TableCell>
                       {flight.ident_iata || "General Aviation"}
                     </TableCell>
