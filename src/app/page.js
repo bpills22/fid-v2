@@ -181,20 +181,24 @@ export default function HomePage() {
   const filteredFlightData = flightData
     .filter((flight) => {
       const query = searchQuery.toLowerCase();
-      return flight.operator_iata?.toLowerCase().includes(query) ||
+      return (
+        flight.operator_iata?.toLowerCase().includes(query) ||
         flight.ident_iata?.toLowerCase().includes(query) ||
-        flightType === "arrivals"
-        ? flight.origin?.city?.toLowerCase().includes(query)
-        : flight.destination?.city?.toLowerCase().includes(query);
+        (flightType === "arrivals"
+          ? flight.origin?.city?.toLowerCase().includes(query)
+          : flight.destination?.city?.toLowerCase().includes(query))
+      );
     })
     .concat(
       flightData.filter((flight) => {
         const query = searchQuery.toLowerCase();
-        return !(flight.operator_iata?.toLowerCase().includes(query) ||
-        flight.ident_iata?.toLowerCase().includes(query) ||
-        flightType === "arrivals"
-          ? flight.origin?.city?.toLowerCase().includes(query)
-          : flight.destination?.city?.toLowerCase().includes(query));
+        return !(
+          flight.operator_iata?.toLowerCase().includes(query) ||
+          flight.ident_iata?.toLowerCase().includes(query) ||
+          (flightType === "arrivals"
+            ? flight.origin?.city?.toLowerCase().includes(query)
+            : flight.destination?.city?.toLowerCase().includes(query))
+        );
       })
     );
 
