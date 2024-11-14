@@ -167,7 +167,10 @@ export default function HomePage() {
   };
 
   const renderSortIcon = (key) => {
-    if (sortConfig.key !== key) return null;
+    // Show ArrowDropDown by default if the column isn't actively sorted
+    if (sortConfig.key !== key) {
+      return <ArrowDropDown fontSize="small" style={{ color: "white" }} />;
+    }
     return sortConfig.direction === "asc" ? (
       <ArrowDropUp fontSize="small" style={{ color: "white" }} />
     ) : (
