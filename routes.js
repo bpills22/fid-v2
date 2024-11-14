@@ -51,18 +51,29 @@ export default new Router()
     edge_function: "./edge-functions/fetchAPI.js", // Use the Edge Function for processing
     comment: "Proxy FlightAware API calls through Edgio",
     caching: {
-      edge: { maxAgeSeconds: 0 }, // Disable edge caching
-      browser: { maxAgeSeconds: 0 }, // Disable browser caching
+      max_age: "0s", // Ensure we don't cache the API responses at the edge
+      bypass_client_cache: true, // No browser caching for the API response
+    },
+    origin: {
+      set_origin: "flightaware", // Ensure requests are sent to the FlightAware origin
     },
   })
 
   // Cache airline logos for 30 days
-  .match("/fis-board/logos/:file*", ({ cache }) => {
-    cache({
-      edge: { maxAgeSeconds: 30 * 24 * 60 * 60 }, // Cache for 30 days
-      browser: { maxAgeSeconds: 30 * 24 * 60 * 60 }, // Cache for 30 days
-    });
-  })
+  .if(
+    {
+      edgeControlCriteria: {
+        and: [
+          { "=~": [{ request: "path" }, "^/fis-board/logos/(.*)"] },
+          { "===": [{ "request.path": "extension" }, "png"] },
+        ],
+      },
+    },
+    {
+      caching: { max_age: { 200: "30d" } },
+      comment: "cache png files for 30 days for logos",
+    }
+  )
 
   // Include default Next.js routes
   .use(nextRoutes);
