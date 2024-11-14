@@ -225,7 +225,9 @@ export default function HomePage() {
             id="airport-logo"
             src={logoUrl}
             alt="Airport Logo"
-            style={{ maxWidth: "250px", maxHeight: "100px" }}
+            width={250} // specify a fixed width
+            height={100} // specify a fixed height
+            style={{ objectFit: "contain" }} // adjust for scaling without distortion
           />
         )}
 
@@ -439,9 +441,9 @@ export default function HomePage() {
                             <Image
                               src={logoUrl}
                               alt={airlineCode}
+                              width={150} // specify the width directly
+                              height={40} // specify the height directly
                               style={{
-                                width: "150px", // adjust width as needed
-                                height: "40px", // adjust height as needed
                                 marginRight: "8px",
                                 objectFit: "contain",
                               }}
