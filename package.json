@@ -1,13 +1,16 @@
 {
-  "name": "fid-v3-next",
-  "version": "0.1.0",
-  "private": true,
   "scripts": {
+    "edgio:dev": "edgio dev",
+    "edgio:build": "edgio build",
+    "edgio:deploy": "edgio deploy",
     "dev": "npx --node 18 next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
+  "name": "fid-v3-next",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
@@ -18,6 +21,12 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@edgio/cli": "^7.13.13",
+    "@edgio/core": "^7.13.13",
+    "@edgio/devtools": "^7.13.13",
+    "@edgio/next": "^7.13.13",
+    "@edgio/prefetch": "^7.13.13",
+    "@edgio/react": "^7.13.13",
     "eslint": "^8",
     "eslint-config-next": "15.0.3"
   }

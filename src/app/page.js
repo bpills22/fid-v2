@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import { ArrowDropUp, ArrowDropDown } from "@mui/icons-material";
 import SearchIcon from "@mui/icons-material/Search";
+import Image from "next/image";
 
 export default function HomePage() {
   const [currentPageUrl, setCurrentPageUrl] = useState(null);
@@ -132,7 +133,7 @@ export default function HomePage() {
   useEffect(() => {
     updateAirportLogo(selectedAirport);
     fetchFlights(selectedAirport, "arrivals");
-  }, []);
+  }, [selectedAirport]); // Runs whenever `selectedAirport` changes
 
   const handleSelectChange = (event) => {
     const airportCode = event.target.value;
@@ -220,7 +221,7 @@ export default function HomePage() {
       >
         {/* Left-aligned Airport Logo */}
         {logoUrl && (
-          <img
+          <Image
             id="airport-logo"
             src={logoUrl}
             alt="Airport Logo"
@@ -239,7 +240,9 @@ export default function HomePage() {
             <MenuItem value="kaus">Austin - KAUS - AUS</MenuItem>
             <MenuItem value="kbos">Boston - KBOS - BOS</MenuItem>
             <MenuItem value="kbur">Burbank - KBUR - BUR</MenuItem>
-            <MenuItem value="klax">Los Angeles Int'l - KLAX - LAX</MenuItem>
+            <MenuItem value="klax">
+              Los Angeles Int&rsquo;l - KLAX - LAX
+            </MenuItem>
             <MenuItem value="ksna">
               Orange County/John Wayne - KSNA - SNA
             </MenuItem>
@@ -433,7 +436,7 @@ export default function HomePage() {
                           <div
                             style={{ display: "flex", alignItems: "center" }}
                           >
-                            <img
+                            <Image
                               src={logoUrl}
                               alt={airlineCode}
                               style={{
