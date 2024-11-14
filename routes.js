@@ -46,35 +46,22 @@ export default new Router()
     },
   })
 
-  // Route to handle API calls using an Edge Function
-  .get("/api/flights/:airportCode/:flightType", ({ cache, proxy }) => {
-    cache({
-      edge: {
-        maxAgeSeconds: 0,
-      },
-      browser: {
-        maxAgeSeconds: 0,
-      },
-    });
-    proxy("api", {
-      path: "/flights/:airportCode/:flightType",
-      transformRequest: (req) => {
-        req.setHeader("Authorization", "Bearer YOUR_API_KEY"); // Replace with your API key
-      },
-    });
+  // Route to handle API calls using the Edge Function
+  .get("/api/flights/:airportCode/:flightType", {
+    edge_function: "./edge-functions/fetchAPI.js", // Use the Edge Function for processing
+    comment: "Proxy FlightAware API calls through Edgio",
+    caching: {
+      edge: { maxAgeSeconds: 0 }, // Disable edge caching
+      browser: { maxAgeSeconds: 0 }, // Disable browser caching
+    },
   })
 
   // Cache airline logos for 30 days
   .match("/fis-board/logos/:file*", ({ cache }) => {
     cache({
-      edge: {
-        maxAgeSeconds: 30 * 24 * 60 * 60, // Cache for 30 days
-      },
-      browser: {
-        maxAgeSeconds: 30 * 24 * 60 * 60, // Cache for 30 days
-      },
+      edge: { maxAgeSeconds: 30 * 24 * 60 * 60 }, // Cache for 30 days
+      browser: { maxAgeSeconds: 30 * 24 * 60 * 60 }, // Cache for 30 days
     });
-    // No need for a proxy here since it's static content served from your assets
   })
 
   // Include default Next.js routes
