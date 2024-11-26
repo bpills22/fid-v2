@@ -189,6 +189,7 @@ export default function HomePage() {
             </MenuItem>
             <MenuItem value="engm">Oslo Norway - ENGM - OSL</MenuItem>
             <MenuItem value="kphl">Philadelphia - KPHL - PHL</MenuItem>
+            <MenuItem value="sbgl">Rio de Janiero - SBGL - GIG</MenuItem>
             <MenuItem value="kslc">Salt Lake City - KSLC - SLC</MenuItem>
             <MenuItem value="ksan">San Diego - KSAN - SAN</MenuItem>
             <MenuItem value="kilg">Wilmington Delaware - KILG - ILG</MenuItem>
