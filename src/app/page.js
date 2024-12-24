@@ -181,6 +181,7 @@ export default function HomePage() {
             <MenuItem value="kaus">Austin - KAUS - AUS</MenuItem>
             <MenuItem value="kbos">Boston - KBOS - BOS</MenuItem>
             <MenuItem value="kbur">Burbank - KBUR - BUR</MenuItem>
+            <MenuItem value="egll">London Heathrow - EGLL - LHR</MenuItem>
             <MenuItem value="klax">
               Los Angeles Int&rsquo;l - KLAX - LAX
             </MenuItem>
