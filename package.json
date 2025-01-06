@@ -5,7 +5,7 @@
     "start": "next start",
     "lint": "next lint"
   },
-  "name": "fid-v4-next-docker",
+  "name": "fid-v5-next-cloudflare",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
