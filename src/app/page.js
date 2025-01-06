@@ -37,7 +37,9 @@ export default function HomePage() {
     type = "arrivals",
     pageUrl = null
   ) => {
-    const url = pageUrl || `/api/flights/${airportCode}/${type}`;
+    const url =
+      pageUrl ||
+      `https://api-next-flightaware.bpillsbury.org/api/flights/${airportCode}/${type}`;
     setDebugInfo(`URL passed to Edge Function: ${url}`);
 
     try {
