@@ -40,7 +40,7 @@ export default function HomePage() {
     const url =
       pageUrl ||
       `https://api-next-flightaware.bpillsbury.org/api/flights/${airportCode}/${type}`;
-    setDebugInfo(`URL passed to Edge Function: ${url}`);
+    setDebugInfo(`URL passed to CF Worker: ${url}`);
 
     try {
       const response = await fetch(url, { method: "GET" });
