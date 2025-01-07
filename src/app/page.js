@@ -183,6 +183,7 @@ export default function HomePage() {
             <MenuItem value="kaus">Austin - KAUS - AUS</MenuItem>
             <MenuItem value="kbos">Boston - KBOS - BOS</MenuItem>
             <MenuItem value="kbur">Burbank - KBUR - BUR</MenuItem>
+            <MenuItem value="egll">London Heathrow - EGLL - LHR</MenuItem>
             <MenuItem value="klax">
               Los Angeles Int&rsquo;l - KLAX - LAX
             </MenuItem>
@@ -191,6 +192,7 @@ export default function HomePage() {
             </MenuItem>
             <MenuItem value="engm">Oslo Norway - ENGM - OSL</MenuItem>
             <MenuItem value="kphl">Philadelphia - KPHL - PHL</MenuItem>
+            <MenuItem value="sbgl">Rio de Janiero - SBGL - GIG</MenuItem>
             <MenuItem value="kslc">Salt Lake City - KSLC - SLC</MenuItem>
             <MenuItem value="ksan">San Diego - KSAN - SAN</MenuItem>
             <MenuItem value="kilg">Wilmington Delaware - KILG - ILG</MenuItem>
